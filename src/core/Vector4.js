@@ -21,8 +21,6 @@ THREE.Vector4.prototype = {
 		this.z = z;
 		this.w = w;
 
-		return this;
-
 	},
 
 	copy: function ( v ) {
@@ -31,8 +29,6 @@ THREE.Vector4.prototype = {
 		this.y = v.y;
 		this.z = v.z;
 		this.w = v.w;
-
-		return this;
 
 	},
 
@@ -43,8 +39,6 @@ THREE.Vector4.prototype = {
 		this.z = v1.z + v2.z;
 		this.w = v1.w + v2.w;
 
-		return this;
-
 	},
 
 	addSelf: function ( v ) {
@@ -53,8 +47,6 @@ THREE.Vector4.prototype = {
 		this.y += v.y;
 		this.z += v.z;
 		this.w += v.w;
-
-		return this;
 
 	},
 
@@ -65,8 +57,6 @@ THREE.Vector4.prototype = {
 		this.z = v1.z - v2.z;
 		this.w = v1.w - v2.w;
 
-		return this;
-
 	},
 
 	subSelf: function ( v ) {
@@ -75,8 +65,6 @@ THREE.Vector4.prototype = {
 		this.y -= v.y;
 		this.z -= v.z;
 		this.w -= v.w;
-
-		return this;
 
 	},
 

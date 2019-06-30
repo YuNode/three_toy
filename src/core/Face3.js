@@ -2,26 +2,21 @@
  * @author mr.doob / http://mrdoob.com/
  */
 
-THREE.Face3 = function ( a, b, c, normal, material ) {
+THREE.Face3 = function ( a, b, c, normal, color ) {
 
 	this.a = a;
 	this.b = b;
 	this.c = c;
 
-	this.centroid = new THREE.Vector3();
-	this.normal = normal instanceof THREE.Vector3 ? normal : new THREE.Vector3();
-	this.vertexNormals =  normal instanceof Array ? normal : [];
+	this.normal = normal || new THREE.Vector3();
+	this.screen = new THREE.Vector3();
 
-	this.material = material instanceof Array ? material : [ material ];
+	this.color = color || new THREE.Color( 0x000000 );
 
-};
-
-THREE.Face3.prototype = {
-
-	toString: function () {
+	this.toString = function () {
 
 		return 'THREE.Face3 ( ' + this.a + ', ' + this.b + ', ' + this.c + ' )';
 
-	}
+	};
 
-}
+};

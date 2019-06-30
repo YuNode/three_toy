@@ -4,9 +4,8 @@
 
 THREE.Particle = function ( material ) {
 
-	THREE.Object3D.call( this );
+	THREE.Object3D.call( this, material );
 
-	this.material = material instanceof Array ? material : [ material ];
 	this.autoUpdateMatrix = false;
 
 };

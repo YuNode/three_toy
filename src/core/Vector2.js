@@ -17,16 +17,12 @@ THREE.Vector2.prototype = {
 		this.x = x;
 		this.y = y;
 
-		return this;
-
 	},
 
 	copy: function ( v ) {
 
 		this.x = v.x;
 		this.y = v.y;
-
-		return this;
 
 	},
 
@@ -35,16 +31,12 @@ THREE.Vector2.prototype = {
 		this.x += v.x;
 		this.y += v.y;
 
-		return this;
-
 	},
 
 	add: function ( v1, v2 ) {
 
 		this.x = v1.x + v2.x;
 		this.y = v1.y + v2.y;
-
-		return this;
 
 	},
 
@@ -53,16 +45,12 @@ THREE.Vector2.prototype = {
 		this.x -= v.x;
 		this.y -= v.y;
 
-		return this;
-
 	},
 
 	sub: function ( v1, v2 ) {
 
 		this.x = v1.x - v2.x;
 		this.y = v1.y - v2.y;
-
-		return this;
 
 	},
 
@@ -71,15 +59,11 @@ THREE.Vector2.prototype = {
 		this.x *= s;
 		this.y *= s;
 
-		return this;
-
 	},
 
 	unit: function () {
 
 		this.multiplyScalar( 1 / this.length() );
-
-		return this;
 
 	},
 
@@ -99,8 +83,6 @@ THREE.Vector2.prototype = {
 
 		this.x = - this.x;
 		this.y = - this.y;
-
-		return this;
 
 	},
 

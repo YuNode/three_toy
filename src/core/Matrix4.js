@@ -3,7 +3,6 @@
  * @author supereggbert / http://www.paulbrunt.co.uk/
  * @author philogb / http://blog.thejit.org/
  * @author jordi_ros / http://plattsoft.com
- * @author D1plo1d / http://github.com/D1plo1d
  */
 
 THREE.Matrix4 = function () {
@@ -30,15 +29,6 @@ THREE.Matrix4.prototype = {
 
 	},
 
-	copy: function ( m ) {
-
-		this.n11 = m.n11; this.n12 = m.n12; this.n13 = m.n13; this.n14 = m.n14;
-		this.n21 = m.n21; this.n22 = m.n22; this.n23 = m.n23; this.n24 = m.n24;
-		this.n31 = m.n31; this.n32 = m.n32; this.n33 = m.n33; this.n34 = m.n34;
-		this.n41 = m.n41; this.n42 = m.n42; this.n43 = m.n43; this.n44 = m.n44;
-
-	},
-
 	lookAt: function ( eye, center, up ) {
 
 		var x = this._x, y = this._y, z = this._z;
@@ -55,8 +45,7 @@ THREE.Matrix4.prototype = {
 		this.n11 = x.x; this.n12 = x.y; this.n13 = x.z; this.n14 = - x.dot( eye );
 		this.n21 = y.x; this.n22 = y.y; this.n23 = y.z; this.n24 = - y.dot( eye );
 		this.n31 = z.x; this.n32 = z.y; this.n33 = z.z; this.n34 = - z.dot( eye );
-		this.n41 = 0; this.n42 = 0; this.n43 = 0; this.
-n44 = 1;
+
 	},
 
 	transform: function ( v ) {
@@ -80,8 +69,6 @@ n44 = 1;
 			v.z = v.z / vw;
 
 		}
-
-		return v;
 
 	},
 
@@ -152,73 +139,6 @@ n44 = 1;
 
 	},
 
-	multiplyScalar: function ( s ) {
-
-		this.n11 *= s; this.n12 *= s; this.n13 *= s; this.n14 *= s;
-		this.n21 *= s; this.n22 *= s; this.n23 *= s; this.n24 *= s;
-		this.n31 *= s; this.n32 *= s; this.n33 *= s; this.n34 *= s;
-		this.n41 *= s; this.n42 *= s; this.n43 *= s; this.n44 *= s;
-
-	},
-
-	determinant: function () {
-
-		//TODO: make this more efficient
-		//( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-		return (
-			this.n14 * this.n23 * this.n32 * this.n41-
-			this.n13 * this.n24 * this.n32 * this.n41-
-			this.n14 * this.n22 * this.n33 * this.n41+
-			this.n12 * this.n24 * this.n33 * this.n41+
-
-			this.n13 * this.n22 * this.n34 * this.n41-
-			this.n12 * this.n23 * this.n34 * this.n41-
-			this.n14 * this.n23 * this.n31 * this.n42+
-			this.n13 * this.n24 * this.n31 * this.n42+
-
-			this.n14 * this.n21 * this.n33 * this.n42-
-			this.n11 * this.n24 * this.n33 * this.n42-
-			this.n13 * this.n21 * this.n34 * this.n42+
-			this.n11 * this.n23 * this.n34 * this.n42+
-
-			this.n14 * this.n22 * this.n31 * this.n43-
-			this.n12 * this.n24 * this.n31 * this.n43-
-			this.n14 * this.n21 * this.n32 * this.n43+
-			this.n11 * this.n24 * this.n32 * this.n43+
-
-			this.n12 * this.n21 * this.n34 * this.n43-
-			this.n11 * this.n22 * this.n34 * this.n43-
-			this.n13 * this.n22 * this.n31 * this.n44+
-			this.n12 * this.n23 * this.n31 * this.n44+
-
-			this.n13 * this.n21 * this.n32 * this.n44-
-			this.n11 * this.n23 * this.n32 * this.n44-
-			this.n12 * this.n21 * this.n33 * this.n44+
-			this.n11 * this.n22 * this.n33 * this.n44 );
-
-	},
-
-	transpose: function () {
-
-		function swap( obj, p1, p2 ) {
-
-			var aux = obj[ p1 ];
-			obj[ p1 ] = obj[ p2 ];
-			obj[ p2 ] = aux;
-
-		}
-
-		swap( this, 'n21', 'n12' );
-		swap( this, 'n31', 'n13' );
-		swap( this, 'n32', 'n23' );
-		swap( this, 'n41', 'n14' );
-		swap( this, 'n42', 'n24' );
-		swap( this, 'n43', 'n34' );
-
-		return this;
-
-	},
-
 	clone: function () {
 
 		var m = new THREE.Matrix4();
@@ -230,21 +150,12 @@ n44 = 1;
 
 	},
 
-	flatten: function() {
-
-		return [this.n11, this.n21, this.n31, this.n41,
-			this.n12, this.n22, this.n32, this.n42,
-			this.n13, this.n23, this.n33, this.n43,
-			this.n14, this.n24, this.n34, this.n44];
-
-	},
-
 	toString: function() {
 
-		return  "| " + this.n11 + " " + this.n12 + " " + this.n13 + " " + this.n14 + " |\n" +
-			"| " + this.n21 + " " + this.n22 + " " + this.n23 + " " + this.n24 + " |\n" +
-			"| " + this.n31 + " " + this.n32 + " " + this.n33 + " " + this.n34 + " |\n" +
-			"| " + this.n41 + " " + this.n42 + " " + this.n43 + " " + this.n44 + " |";
+		return "| " + this.n11 + " " + this.n12 + " " + this.n13 + " " + this.n14 + " |\n" +
+		"| " + this.n21 + " " + this.n22 + " " + this.n23 + " " + this.n24 + " |\n" +
+		"| " + this.n31 + " " + this.n32 + " " + this.n33 + " " + this.n34 + " |\n" +
+		"| " + this.n41 + " " + this.n42 + " " + this.n43 + " " + this.n44 + " |";
 
 	}
 
@@ -298,7 +209,7 @@ THREE.Matrix4.rotationYMatrix = function ( theta ) {
 
 };
 
-THREE.Matrix4.rotationZMatrix = function ( theta ) {
+THREE.Matrix4.rotationZMatrix = function( theta ) {
 
 	var rot = new THREE.Matrix4();
 
@@ -309,91 +220,6 @@ THREE.Matrix4.rotationZMatrix = function ( theta ) {
 	return rot;
 
 };
-
-THREE.Matrix4.rotationAxisAngleMatrix = function ( axis, angle ) {
-
-	//Based on http://www.gamedev.net/reference/articles/article1199.asp
-
-	var rot = new THREE.Matrix4(),
-	c = Math.cos( angle ),
-	s = Math.sin( angle ),
-	t = 1 - c,
-	x = axis.x, y = axis.y, z = axis.z;
-
-	rot.n11 = t * x * x + c;
-	rot.n12 = t * x * y - s * z;
-	rot.n13 = t * x * z + s * y;
-	rot.n21 = t * x * y + s * z;
-	rot.n22 = t * y * y + c;
-	rot.n23 = t * y * z - s * x;
-	rot.n31 = t * x * z - s * y;
-	rot.n32 = t * y * z + s * x;
-	rot.n33 = t * z * z + c;
-
-	return rot;
-
-};
-
-THREE.Matrix4.makeInvert = function ( m1 ) {
-
-	//TODO: make this more efficient
-	//( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-	var m2 = new THREE.Matrix4();
-
-	m2.n11 = m1.n23*m1.n34*m1.n42 - m1.n24*m1.n33*m1.n42 + m1.n24*m1.n32*m1.n43 - m1.n22*m1.n34*m1.n43 - m1.n23*m1.n32*m1.n44 + m1.n22*m1.n33*m1.n44;
-	m2.n12 = m1.n14*m1.n33*m1.n42 - m1.n13*m1.n34*m1.n42 - m1.n14*m1.n32*m1.n43 + m1.n12*m1.n34*m1.n43 + m1.n13*m1.n32*m1.n44 - m1.n12*m1.n33*m1.n44;
-	m2.n13 = m1.n13*m1.n24*m1.n42 - m1.n14*m1.n23*m1.n42 + m1.n14*m1.n22*m1.n43 - m1.n12*m1.n24*m1.n43 - m1.n13*m1.n22*m1.n44 + m1.n12*m1.n23*m1.n44;
-	m2.n14 = m1.n14*m1.n23*m1.n32 - m1.n13*m1.n24*m1.n32 - m1.n14*m1.n22*m1.n33 + m1.n12*m1.n24*m1.n33 + m1.n13*m1.n22*m1.n34 - m1.n12*m1.n23*m1.n34;
-	m2.n21 = m1.n24*m1.n33*m1.n41 - m1.n23*m1.n34*m1.n41 - m1.n24*m1.n31*m1.n43 + m1.n21*m1.n34*m1.n43 + m1.n23*m1.n31*m1.n44 - m1.n21*m1.n33*m1.n44;
-	m2.n22 = m1.n13*m1.n34*m1.n41 - m1.n14*m1.n33*m1.n41 + m1.n14*m1.n31*m1.n43 - m1.n11*m1.n34*m1.n43 - m1.n13*m1.n31*m1.n44 + m1.n11*m1.n33*m1.n44;
-	m2.n23 = m1.n14*m1.n23*m1.n41 - m1.n13*m1.n24*m1.n41 - m1.n14*m1.n21*m1.n43 + m1.n11*m1.n24*m1.n43 + m1.n13*m1.n21*m1.n44 - m1.n11*m1.n23*m1.n44;
-	m2.n24 = m1.n13*m1.n24*m1.n31 - m1.n14*m1.n23*m1.n31 + m1.n14*m1.n21*m1.n33 - m1.n11*m1.n24*m1.n33 - m1.n13*m1.n21*m1.n34 + m1.n11*m1.n23*m1.n34;
-	m2.n31 = m1.n22*m1.n34*m1.n41 - m1.n24*m1.n32*m1.n41 + m1.n24*m1.n31*m1.n42 - m1.n21*m1.n34*m1.n42 - m1.n22*m1.n31*m1.n44 + m1.n21*m1.n32*m1.n44;
-	m2.n32 = m1.n14*m1.n32*m1.n41 - m1.n12*m1.n34*m1.n41 - m1.n14*m1.n31*m1.n42 + m1.n11*m1.n34*m1.n42 + m1.n12*m1.n31*m1.n44 - m1.n11*m1.n32*m1.n44;
-	m2.n33 = m1.n13*m1.n24*m1.n41 - m1.n14*m1.n22*m1.n41 + m1.n14*m1.n21*m1.n42 - m1.n11*m1.n24*m1.n42 - m1.n12*m1.n21*m1.n44 + m1.n11*m1.n22*m1.n44;
-	m2.n34 = m1.n14*m1.n22*m1.n31 - m1.n12*m1.n24*m1.n31 - m1.n14*m1.n21*m1.n32 + m1.n11*m1.n24*m1.n32 + m1.n12*m1.n21*m1.n34 - m1.n11*m1.n22*m1.n34;
-	m2.n41 = m1.n23*m1.n32*m1.n41 - m1.n22*m1.n33*m1.n41 - m1.n23*m1.n31*m1.n42 + m1.n21*m1.n33*m1.n42 + m1.n22*m1.n31*m1.n43 - m1.n21*m1.n32*m1.n43;
-	m2.n42 = m1.n12*m1.n33*m1.n41 - m1.n13*m1.n32*m1.n41 + m1.n13*m1.n31*m1.n42 - m1.n11*m1.n33*m1.n42 - m1.n12*m1.n31*m1.n43 + m1.n11*m1.n32*m1.n43;
-	m2.n43 = m1.n13*m1.n22*m1.n41 - m1.n12*m1.n23*m1.n41 - m1.n13*m1.n21*m1.n42 + m1.n11*m1.n23*m1.n42 + m1.n12*m1.n21*m1.n43 - m1.n11*m1.n22*m1.n43;
-	m2.n44 = m1.n12*m1.n23*m1.n31 - m1.n13*m1.n22*m1.n31 + m1.n13*m1.n21*m1.n32 - m1.n11*m1.n23*m1.n32 - m1.n12*m1.n21*m1.n33 + m1.n11*m1.n22*m1.n33;
-	m2.multiplyScalar( 1 / m1.determinant() );
-
-	return m2;
-
-};
-
-THREE.Matrix4.makeInvert3x3 = function ( m1 ) {
-
-	// input:  THREE.Matrix4, output: THREE.Matrix3
-	// ( based on http://code.google.com/p/webgl-mjs/ )
-
-	var m = m1.flatten(),
-	m2 = new THREE.Matrix3(),
-
-	a11 = m[ 10 ] * m[ 5 ] - m[ 6 ] * m[ 9 ],
-	a21 = - m[ 10 ] * m[ 1 ] + m[ 2 ] * m[ 9 ],
-	a31 = m[ 6 ] * m[ 1 ] - m[ 2 ] * m[ 5 ],
-	a12 = - m[ 10 ] * m[ 4 ] + m[ 6 ] * m[ 8 ],
-	a22 = m[ 10 ] * m[ 0 ] - m[ 2 ] * m[ 8 ],
-	a32 = - m[ 6 ] * m[ 0 ] + m[ 2 ] * m[ 4 ],
-	a13 = m[ 9 ] * m[ 4 ] - m[ 5 ] * m[ 8 ],
-	a23 = - m[ 9 ] * m[ 0 ] + m[ 1 ] * m[ 8 ],
-	a33 = m[ 5 ] * m[ 0 ] - m[ 1 ] * m[ 4 ],
-	det = m[ 0 ] * ( a11 ) + m[ 1 ] * ( a12 ) + m[ 2 ] * ( a13 ),
-	idet;
-
-	// no inverse
-	if (det == 0) throw "matrix not invertible";
-
-	idet = 1.0 / det;
-
-	m2.m[ 0 ] = idet * a11; m2.m[ 1 ] = idet * a21; m2.m[ 2 ] = idet * a31;
-	m2.m[ 3 ] = idet * a12; m2.m[ 4 ] = idet * a22; m2.m[ 5 ] = idet * a32;
-	m2.m[ 6 ] = idet * a13; m2.m[ 7 ] = idet * a23; m2.m[ 8 ] = idet * a33;
-
-	return m2;
-
-}
 
 THREE.Matrix4.makeFrustum = function( left, right, bottom, top, near, far ) {
 
